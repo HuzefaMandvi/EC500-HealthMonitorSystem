@@ -1,22 +1,19 @@
-class Error_Handler:
-    def __init__(self, bp1_reading, bp2_reading, bo_reading, hr_reading):
-        self.bp1_reading = pdata.get("blood_pressure1")
-        self.bp2_reading = pdata.get("blood_pressure2")
-        self.hr_reading = pdata.get("blood_oxygen")
-        self.bo_reading = pdata.get("heart_rate")
 
-    def bad_bp(self):
-       if self.bp1_reading > 140 or self.bp1_reading < 120 or self.bp2_reading > 90 or self.bp2_reading < 80:
-           alert = true
-       else alert = false
+def Error_Handler(data):
+    hr_reading = data.get("heart_rate")
+    bp1_reading = data.get(“blood_pressure1”)
+    bp2_reading = data.get(“blood_pressure2”)
+    bo_reading = data.get(“blood_oxygen”)
 
+    alert = false
 
-    def bad_hr(self):
-        if self.hr_reading > 120 or self.hr_reading < 50:
-            alert = true
-        else alert = false
+    if bp1_reading > 140 or bp1_reading < 120 or bp2_reading > 90 or bp2_reading < 80:
+        alert = true
 
-    def bad_bo(self):
-        if self.hr_reading > 110 or self.hr_reading < 70:
-            alert = true
-        else alert = false 
+    if hr_reading > 120 or hr_reading < 50:
+        alert = true
+
+    if bo_reading > 110 or bo_reading < 70:
+        alert = true
+
+    return alert
