@@ -1,6 +1,12 @@
 from tkinter import *
 from data import data_pull
 import time
+from error_handler import Error_Handler
+from datastore import insertData
+from encryption import encrypt_private_key, generate_keys
+from alert_system import page_doctor
+
+private_key, pub_key = generate_keys()
 
 # Time intervals for retrieving data
 hr_interval = 5
@@ -39,24 +45,37 @@ def runUI():
     textBox3.grid(row=1, column=2)
     
     def dataLoop():
-        getDataLoop(hr, bp, bo)
+        mainLoop(hr, bp, bo)
         window.after(min_int * 1000, dataLoop)
     
     window.after(min_int * 1000, dataLoop)
 
     window.mainloop()
 
-# Grab data every n seconds
-# Where n is minimum time interval given
-def getDataLoop(hr, bp, bo):
+# Grab data
+# Send to UI
+# Attempt to encrypt data
+# Store (theoretically encrypted) data
+# Handle errors
+def mainLoop(hr, bp, bo):
     min_int = min(hr_interval, bp_interval, bo_interval)
     data_obj = data_pull()
     hr.set(data_obj.get("heart_rate"))
     bp.set(data_obj.get("blood_pressure1"))
     bo.set(data_obj.get("blood_oxygen"))
 
-#def change_interval(time, type):
+    ##data encryption
+    #encrypted_message = encrypt_private_key(data_obj.get("heart_rate"), private_key)
 
+    ##data storage
+    #insertData(1, encrypted_message)
+    insertData(1, data_obj.get("heart_rate"))
+    insertData(1, data_obj.get("blood_pressure1"))
+    insertData(1, data_obj.get("blood_pressure2"))
+    insertData(1, data_obj.get("blood_oxygen"))
+
+    #error handling
+    page_doctor(data_obj, 0x01, Error_Handler(data_obj))
 
 def main():
     runUI()
