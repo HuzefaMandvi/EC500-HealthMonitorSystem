@@ -1,2 +1,7 @@
 # EC500-HealthMonitorSystem
-EC500
+Huzefa's implementation of the health monitor system for assignment 1 of EC500.
+
+Prerequisites:
+   Python >= 3.0
+   Tkinter
+   Crypto
