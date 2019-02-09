@@ -6,7 +6,8 @@ from datastore import insertData
 from encryption import encrypt_private_key, generate_keys
 from alert_system import page_doctor
 
-private_key, pub_key = generate_keys()
+##Generate private/public key
+#private_key, pub_key = generate_keys()
 
 # Time intervals for retrieving data
 hr_interval = 5
@@ -69,6 +70,8 @@ def mainLoop(hr, bp, bo):
 
     ##data storage
     #insertData(1, encrypted_message)
+
+    #workaround to store unencrypted data
     insertData(1, data_obj.get("heart_rate"))
     insertData(1, data_obj.get("blood_pressure1"))
     insertData(1, data_obj.get("blood_pressure2"))
@@ -76,9 +79,5 @@ def mainLoop(hr, bp, bo):
 
     #error handling
     page_doctor(data_obj, 0x01, Error_Handler(data_obj))
-
-def main():
-    runUI()
-
-if __name__ == "__main__":
-    main()
+    page_doctor(data_obj, 0x02, Error_Handler(data_obj))
+    page_doctor(data_obj, 0x03, Error_Handler(data_obj))
