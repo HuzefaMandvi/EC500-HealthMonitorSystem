@@ -23,6 +23,7 @@ def runUI():
     
     hr = IntVar()
     bp = IntVar()
+    bp2 = IntVar()
     bo = IntVar()
 
     window.title("EC500 Health Monitor System")
@@ -33,20 +34,26 @@ def runUI():
     textBox1 = Label(window, height=2, width=10, textvariable = hr)
     textBox1.grid(row=1, column=0)
     
-    label2 = Label(window, text='Blood Pressure')
+    label2 = Label(window, text='Systolic Blood Pressure')
     label2.grid(row=0, column=1)
 
     textBox2 = Label(window, height=2, width=10, textvariable = bp)
     textBox2.grid(row=1, column=1)
 
+    label2 = Label(window, text='Diastolic Blood Pressure')
+    label2.grid(row=0, column=2)
+
+    textBox2 = Label(window, height=2, width=10, textvariable = bp2)
+    textBox2.grid(row=1, column=2)
+
     label3 = Label(window, text='Blood Oxygen')
-    label3.grid(row=0, column=2)
+    label3.grid(row=0, column=3)
 
     textBox3 = Label(window, height=2, width=10, textvariable = bo)
-    textBox3.grid(row=1, column=2)
+    textBox3.grid(row=1, column=3)
     
     def dataLoop():
-        mainLoop(hr, bp, bo)
+        mainLoop(hr, bp, bp2, bo)
         window.after(min_int * 1000, dataLoop)
     
     window.after(min_int * 1000, dataLoop)
@@ -58,11 +65,12 @@ def runUI():
 # Attempt to encrypt data
 # Store (theoretically encrypted) data
 # Handle errors
-def mainLoop(hr, bp, bo):
+def mainLoop(hr, bp, bp2, bo):
     min_int = min(hr_interval, bp_interval, bo_interval)
     data_obj = data_pull()
     hr.set(data_obj.get("heart_rate"))
     bp.set(data_obj.get("blood_pressure1"))
+    bp2.set(data_obj.get("blood_pressure2"))
     bo.set(data_obj.get("blood_oxygen"))
 
     ##data encryption
