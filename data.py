@@ -37,6 +37,7 @@ def callback():
             callback()
 
 def cleanup():
+    global alive
     alive = False
 
 def data_pull():
