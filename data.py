@@ -7,7 +7,14 @@ bp1 = 0
 bp2 = 0
 bo = 0
 
+alive = True
+
 def init():
+        global hr
+        global bp1
+        global bp2
+        global bo
+
         hr = random.randint(60, 100)
         bp1 = random.randint(120, 140)
         bp2 = random.randint(80, 90)
@@ -16,12 +23,21 @@ def init():
         t.start()
 
 def callback():
+        print("here")
+        global hr
+        global bp1
+        global bp2
+        global bo
         hr = random.randint(60, 100)
         bp1 = random.randint(120, 140)
         bp2 = random.randint(80, 90)
         bo = random.randint(75, 100)
         time.sleep(random.randint(1,10))
-        callback()
+        if(alive):
+            callback()
+
+def cleanup():
+    alive = False
 
 def data_pull():
 
