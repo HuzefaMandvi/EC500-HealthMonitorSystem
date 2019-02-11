@@ -54,9 +54,9 @@ def runUI():
     
     def dataLoop():
         mainLoop(hr, bp, bp2, bo)
-        window.after(min_int * 1000, dataLoop)
+        window.after(10, dataLoop)
     
-    window.after(min_int * 1000, dataLoop)
+    window.after(10, dataLoop)
     
     def on_closing():
         cleanup()
