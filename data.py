@@ -23,7 +23,6 @@ def init():
         t.start()
 
 def callback():
-        print("here")
         global hr
         global bp1
         global bp2
