@@ -1,5 +1,5 @@
 from tkinter import *
-from data import data_pull
+from data import data_pull, cleanup
 import time
 from error_handler import Error_Handler
 from datastore import insertData
@@ -57,6 +57,12 @@ def runUI():
         window.after(min_int * 1000, dataLoop)
     
     window.after(min_int * 1000, dataLoop)
+    
+    def on_closing():
+        cleanup()
+        window.destroy()
+
+    window.protocol("WM_DELETE_WINDOW", on_closing)
 
     window.mainloop()
 
