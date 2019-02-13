@@ -7,7 +7,7 @@ import base64
 import data as Data_Module
 import ast
 
-def generate_keys():
+def generate_key():
     # A function to generate random keys for users 
     key = Fernet.generate_key()
     file = open('private.key', 'wb')
@@ -16,15 +16,13 @@ def generate_keys():
     return key
 
 
-def encrypt():
+def encrypt(data, key):
     # Encrypt anything
-    data = Data_Module.data_pull()
+    print(data)
     message = str(data).encode()
-    key = generate_keys()
     f = Fernet(key)
     encrypted = f.encrypt(message)
     file = open('private.dat', 'wb')
     file.write(encrypted) # The key is type bytes still
     file.close()
-
-encrypt()
+    return encrypted
