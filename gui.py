@@ -5,6 +5,7 @@ from error_handler import Error_Handler
 from datastore import insertData
 from encryption import encrypt, generate_key
 from alert_system import page_doctor
+import random
 
 ##Generate private/public key
 private_key = generate_key()
