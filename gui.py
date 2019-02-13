@@ -16,6 +16,8 @@ bo_interval = 5
 
 min_int = 5
 
+# current p_id
+p_id = random.randint(0,10000)
 # Run the UI
 def runUI():
 
@@ -26,7 +28,7 @@ def runUI():
     bp2 = IntVar()
     bo = IntVar()
 
-    window.title("EC500 Health Monitor System")
+    window.title("Patient : " + str(p_id))
     
     label1 = Label(window, text='Heart Rate')
     label1.grid(row=0, column=0)
@@ -86,12 +88,9 @@ def mainLoop(hr, bp, bp2, bo):
     #insertData(1, encrypted_message)
 
     #workaround to store unencrypted data
-    insertData(1, data_obj.get("heart_rate"))
-    insertData(1, data_obj.get("blood_pressure1"))
-    insertData(1, data_obj.get("blood_pressure2"))
-    insertData(1, data_obj.get("blood_oxygen"))
-
-    #error handling
-    page_doctor(data_obj, 0x01, Error_Handler(data_obj))
-    page_doctor(data_obj, 0x02, Error_Handler(data_obj))
-    page_doctor(data_obj, 0x03, Error_Handler(data_obj))
+    insertData(p_id,data_obj)
+    
+    if(Error_Handler(data_obj)):
+        page_doctor(data_obj,0x01,check_hr(data_obj))
+        page_doctor(data_obj,0x02,check_bp(data_obj))
+        page_doctor(data_obj,0x03,check_bo(data_obj))
