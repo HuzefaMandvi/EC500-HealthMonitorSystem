@@ -1,32 +1,30 @@
-import Crypto
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
+import cryptography
+from cryptography.hazmat.backends import default_backend
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import base64
 import data as Data_Module
 import ast
 
 def generate_keys():
     # A function to generate random keys for users 
-    modulus_length = 1024
-    key = RSA.generate(modulus_length)
-    pub_key = key.publickey()
-    return key, pub_key
+    key = Fernet.generate_key()
+    file = open('private.key', 'wb')
+    file.write(key) # The key is type bytes still
+    file.close()
+    return key
 
-def encrypt_private_key(a_message, private_key):
-    # Encrypt anything
-    encryptor = PKCS1_OAEP.new(private_key)
-    decrypted_msg = encryptor.encrypt(a_message)
-    print(decrypted_msg)
-    return decrypted_msg
 
 def encrypt():
-    # Get data from the data module and encrypt the data
-    keys = generate_keys()
-    key = keys[0]
-    pub_key = keys[1]
-    f = open ('encryption.txt', 'w')
-    f.write(key) #write ciphertext to file
-    f.close()
+    # Encrypt anything
     data = Data_Module.data_pull()
-    encrypt_private_key(data,key)
+    message = str(data).encode()
+    key = generate_keys()
+    f = Fernet(key)
+    encrypted = f.encrypt(message)
+    file = open('private.dat', 'wb')
+    file.write(encrypted) # The key is type bytes still
+    file.close()
 
+encrypt()
