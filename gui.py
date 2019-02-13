@@ -2,6 +2,7 @@ from tkinter import *
 from data import data_pull, cleanup
 import time
 from error_handler import Error_Handler
+from Error_Handler import check_hr
 from datastore import insertData
 from encryption import encrypt, generate_key
 from alert_system import page_doctor
