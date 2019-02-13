@@ -3,11 +3,11 @@ from data import data_pull, cleanup
 import time
 from error_handler import Error_Handler
 from datastore import insertData
-from encryption import encrypt_private_key, generate_keys
+from encryption import encrypt, generate_key
 from alert_system import page_doctor
 
 ##Generate private/public key
-#private_key, pub_key = generate_keys()
+private_key = generate_key()
 
 # Time intervals for retrieving data
 hr_interval = 5
@@ -80,8 +80,8 @@ def mainLoop(hr, bp, bp2, bo):
     bo.set(data_obj.get("blood_oxygen"))
 
     ##data encryption
-    #encrypted_message = encrypt_private_key(data_obj.get("heart_rate"), private_key)
-
+    encrypted_message = encrypt(data_obj, private_key)
+    print(encrypted_message)
     ##data storage
     #insertData(1, encrypted_message)
 
