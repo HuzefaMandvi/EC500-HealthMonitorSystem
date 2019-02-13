@@ -1,12 +1,11 @@
-import Crypto
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
-import base64
-import ast
-import datastore
+from cryptography.fernet import Fernet
 
-def decrypt(encrypted, private_key):
-    cipher = PKCS1_OAEP.new(private_key)
-    decrypted_msg = cipher.decrypt(encrypted)
-    print(decrypted_msg)
-    return decrypted_msg
+def decrypt():
+    with open('private.key', 'rb') as f:
+        key = f.readline()
+    fernet = Fernet(key)
+    with open('private.dat') as f:
+        data = bytearray(f.read(), 'utf-8')
+    encrypted = fernet.decrypt(bytes(data))
+    with open('decrypted.dat','wb') as f:
+        f.write(encrypted)
