@@ -2,14 +2,13 @@ from tkinter import *
 from data import data_pull, cleanup
 import time
 from error_handler import Error_Handler
-from Error_Handler import check_hr
-from datastore import insertData
+from error_handler import check_hr, check_bo, check_bp
+from datastore import insertData, getData
 from encryption import encrypt, generate_key
 from alert_system import page_doctor
+from pathlib import Path
+import os
 import random
-
-##Generate private/public key
-private_key = generate_key()
 
 # Time intervals for retrieving data
 hr_interval = 5
@@ -20,6 +19,11 @@ min_int = 5
 
 # current p_id
 p_id = random.randint(0,10000)
+
+##Generate private/public key
+key_file = str(p_id)+".key"
+if not os.path.isfile(key_file):
+    private_key = generate_key(p_id)
 # Run the UI
 def runUI():
 
@@ -78,20 +82,20 @@ def runUI():
 def mainLoop(hr, bp, bp2, bo):
     min_int = min(hr_interval, bp_interval, bo_interval)
     data_obj = data_pull()
+    insertData(p_id,data_obj)
+
     hr.set(data_obj.get("heart_rate"))
     bp.set(data_obj.get("blood_pressure1"))
     bp2.set(data_obj.get("blood_pressure2"))
     bo.set(data_obj.get("blood_oxygen"))
 
     ##data encryption
-    encrypted_message = encrypt(data_obj, private_key)
-    print(encrypted_message)
+    # encrypted_message = encrypt(data_obj, private_key)
+    # print(encrypted_message)
     ##data storage
     #insertData(1, encrypted_message)
 
     #workaround to store unencrypted data
-    insertData(p_id,data_obj)
-    
     if(Error_Handler(data_obj)):
         page_doctor(data_obj,0x01,check_hr(data_obj))
         page_doctor(data_obj,0x02,check_bp(data_obj))
