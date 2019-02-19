@@ -1,5 +1,4 @@
 mypy
 flake8
+cryptography
 pytest
-python-tk
-Crypto
